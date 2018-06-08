@@ -13,28 +13,28 @@ func randomId() string {
 }
 
 type Device struct {
-	Name string
-	id   string
+	Name string `json:"name"`
+	Id   string `json:"Id"`
 }
 
 func (device *Device) Save() {
-	if device.id == "" {
-		device.id = randomId()
+	if device.Id == "" {
+		device.Id = randomId()
 	}
-	store[device.id] = *device
+	store[device.Id] = *device
 }
 
 func (device Device) Delete() error {
-	if _, ok := store[device.id]; ok {
-		delete(store, device.id)
+	if _, ok := store[device.Id]; ok {
+		delete(store, device.Id)
 		return nil
 	} else {
 		return errors.New("not found")
 	}
 }
 
-// func Find(id string) (Device, error) {
-// 	if dev, ok := store[id]; ok {
+// func Find(Id string) (Device, error) {
+// 	if dev, ok := store[Id]; ok {
 // 		return dev, nil
 // 	} else {
 // 		return dev, errors.New("not found")
@@ -55,7 +55,7 @@ func All() (result []Device) {
 // func FromMap(m map[string]interface{}) Device {
 // 	dev := Device{
 // 		Name: m["name"].(string),
-// 		id:   m["id"].(string),
+// 		Id:   m["Id"].(string),
 // 	}
 // 	return dev
 // }

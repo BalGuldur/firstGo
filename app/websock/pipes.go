@@ -1,17 +1,10 @@
 package websock
 
 import (
-	// "bytes"
 	"../processor"
-	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
 	"time"
-)
-
-var (
-// newline = []byte{'\n'}
-// space   = []byte{' '}
 )
 
 func createReadPipe(conn *websocket.Conn) {
@@ -22,10 +15,9 @@ func createReadPipe(conn *websocket.Conn) {
 	// conn.SetReadDeadline(time.Now().Add(pongWait))
 	conn.SetPongHandler(func(string) error { conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 	for {
-		// _, message, err := conn.ReadMessage()
-		var v = processor.Request{}
-		err := conn.ReadJSON(&v)
-		fmt.Println("new message")
+		_, message, err := conn.ReadMessage()
+		// var request = processor.Request{}
+		// err := conn.ReadJSON(&request)
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				log.Printf("error: %v", err)
@@ -33,8 +25,6 @@ func createReadPipe(conn *websocket.Conn) {
 				log.Printf("error")
 			}
 		}
-		// message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
-		fmt.Println(v)
-		// processor.Exec(v)
+		processor.Proceed(message)
 	}
 }
