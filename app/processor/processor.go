@@ -34,10 +34,12 @@ func Proceed(raw []byte) Response {
 		var dev, suc, _ = request.Device.Save()
 		response.Device = &dev
 		response.Success = suc
+		response.Public = true
 	case "device.all":
 		response.Devices = devices.All()
 	case "device.delete":
 		request.Device.Delete()
+		response.Public = true
 	case "device.get":
 		var dev, _ = devices.Find(request.Device.Id)
 		response.Device = &dev

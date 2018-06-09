@@ -48,15 +48,3 @@ func All() (result []Device) {
 	}
 	return
 }
-
-// func New() (dev Device) {
-// 	return
-// }
-
-// func FromMap(m map[string]interface{}) Device {
-// 	dev := Device{
-// 		Name: m["name"].(string),
-// 		Id:   m["Id"].(string),
-// 	}
-// 	return dev
-// }
