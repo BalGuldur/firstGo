@@ -13,7 +13,7 @@ func (channel *channel) addConn(conn *websocket.Conn) {
 	channel.connections = append(channel.connections, *conn)
 }
 
-func (channel *channel) send(response processor.Response) {
+func (channel *channel) send(response processor.Response, selfConn *websocket.Conn) {
 	for _, conn := range channel.connections {
 		write(&conn, response)
 	}

@@ -27,9 +27,10 @@ func createReadPipe(conn *websocket.Conn) {
 			}
 		}
 		var response = processor.Proceed(message)
-		write(conn, response)
 		if response.Public {
-			broadcast.send(response)
+			broadcast.send(response, conn)
+		} else {
+			write(conn, response)
 		}
 	}
 }

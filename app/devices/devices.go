@@ -13,8 +13,8 @@ func randomId() string {
 }
 
 type Device struct {
-	Name string `json:"name"`
-	Id   string `json:"id"`
+	Name string `json:"name,omitempty"`
+	Id   string `json:"id,omitempty"`
 }
 
 func (device *Device) Save() (Device, bool, error) {
@@ -25,12 +25,12 @@ func (device *Device) Save() (Device, bool, error) {
 	return store[device.Id], true, nil
 }
 
-func (device Device) Delete() error {
+func (device Device) Delete() (Device, bool, error) {
 	if _, ok := store[device.Id]; ok {
 		delete(store, device.Id)
-		return nil
+		return device, true, nil
 	} else {
-		return errors.New("not found")
+		return device, false, errors.New("not found")
 	}
 }
 
