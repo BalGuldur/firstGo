@@ -14,14 +14,15 @@ func randomId() string {
 
 type Device struct {
 	Name string `json:"name"`
-	Id   string `json:"Id"`
+	Id   string `json:"id"`
 }
 
-func (device *Device) Save() {
+func (device *Device) Save() (Device, bool, error) {
 	if device.Id == "" {
 		device.Id = randomId()
 	}
 	store[device.Id] = *device
+	return store[device.Id], true, nil
 }
 
 func (device Device) Delete() error {
@@ -33,13 +34,13 @@ func (device Device) Delete() error {
 	}
 }
 
-// func Find(Id string) (Device, error) {
-// 	if dev, ok := store[Id]; ok {
-// 		return dev, nil
-// 	} else {
-// 		return dev, errors.New("not found")
-// 	}
-// }
+func Find(Id string) (Device, error) {
+	if dev, ok := store[Id]; ok {
+		return dev, nil
+	} else {
+		return dev, errors.New("not found")
+	}
+}
 
 func All() (result []Device) {
 	for _, dev := range store {

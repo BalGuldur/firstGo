@@ -3,7 +3,6 @@ package processor
 import (
 	"../devices"
 	"encoding/json"
-	"fmt"
 )
 
 type Request struct {
@@ -11,30 +10,37 @@ type Request struct {
 	Device devices.Device `json:"device"`
 }
 
-// func (req Request) Run() {
-// 	if strings.Contains(req.Action, "device.") {
-// 		var model = req.Model.(devices.Device)
-// 	}
-// 	switch req.Action {
-// 	case "device.add":
-//
-// 	}
-// }
+type Response struct {
+	Action  string           `json:"action"`
+	Success bool             `json:"success"`
+	Public  bool             `json:"-"`
+	Device  *devices.Device  `json:"device,omitempty"`
+	Devices []devices.Device `json:"devices,omitempty"`
+}
 
-// func Exec(request map[string]interface{}) {
-// }
-func Proceed(raw []byte) {
+func Proceed(raw []byte) Response {
 	var request = Request{}
 	if err := json.Unmarshal(raw, &request); err != nil {
 		// TODO: Return error and send in response message
 		panic(err)
 	}
+	var response = Response{
+		Success: true,
+		Public:  false,
+		Action:  request.Action,
+	}
 	switch request.Action {
 	case "device.add":
-		request.Device.Save()
+		var dev, suc, _ = request.Device.Save()
+		response.Device = &dev
+		response.Success = suc
 	case "device.all":
-		fmt.Println(devices.All())
+		response.Devices = devices.All()
 	case "device.delete":
 		request.Device.Delete()
+	case "device.get":
+		var dev, _ = devices.Find(request.Device.Id)
+		response.Device = &dev
 	}
+	return response
 }

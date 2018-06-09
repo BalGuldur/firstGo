@@ -2,6 +2,7 @@ package websock
 
 import (
 	"../processor"
+	"github.com/gin-gonic/gin/json"
 	"github.com/gorilla/websocket"
 	"log"
 	"time"
@@ -25,6 +26,19 @@ func createReadPipe(conn *websocket.Conn) {
 				log.Printf("error")
 			}
 		}
-		processor.Proceed(message)
+		var response = processor.Proceed(message)
+		write(conn, response)
+	}
+}
+
+func write(conn *websocket.Conn, resp processor.Response) {
+	w, err := conn.NextWriter(websocket.TextMessage)
+	if err != nil {
+		return
+	}
+	byteResp, _ := json.Marshal(resp)
+	w.Write(byteResp)
+	if err := w.Close(); err != nil {
+		return
 	}
 }
