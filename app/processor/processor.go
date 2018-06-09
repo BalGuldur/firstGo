@@ -22,7 +22,7 @@ func Proceed(raw []byte) Response {
 	var request = Request{}
 	if err := json.Unmarshal(raw, &request); err != nil {
 		// TODO: Return error and send in response message
-		panic(err)
+		return Response{}
 	}
 	var response = Response{
 		Success: true,
