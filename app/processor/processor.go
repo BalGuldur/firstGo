@@ -11,10 +11,10 @@ type Request struct {
 }
 
 type Response struct {
-	Action  string           `json:"action"`
-	Success bool             `json:"success"`
-	Public  bool             `json:"-"`
-	Device  *devices.Device  `json:"device,omitempty"`
+	Action  string `json:"action"`
+	Success bool   `json:"success"`
+	Public  bool   `json:"-"`
+	// Device  *devices.Device  `json:"device,omitempty"`
 	Devices []devices.Device `json:"devices,omitempty"`
 }
 
@@ -30,21 +30,21 @@ func Proceed(raw []byte) Response {
 		Action:  request.Action,
 	}
 	switch request.Action {
-	case "device.add":
+	case "devices.add":
 		var dev, suc, _ = request.Device.Save()
-		response.Device = &dev
+		response.Devices = []devices.Device{dev}
 		response.Success = suc
 		response.Public = true
-	case "device.all":
+	case "devices.all":
 		response.Devices = devices.All()
-	case "device.delete":
+	case "devices.delete":
 		var dev, suc, _ = request.Device.Delete()
-		response.Device = &dev
+		response.Devices = []devices.Device{dev}
 		response.Success = suc
 		response.Public = true
-	case "device.get":
+	case "devices.get":
 		var dev, _ = devices.Find(request.Device.Id)
-		response.Device = &dev
+		response.Devices = []devices.Device{dev}
 	}
 	return response
 }
