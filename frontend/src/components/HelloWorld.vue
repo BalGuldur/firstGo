@@ -1,12 +1,23 @@
 <template>
-  <button @click="loadDevices">Load Devices</button>
+  <div>
+    <button @click="loadDevices">Load Devices</button>
+    <devices-table/>
+    <device-form @submit="saveDevice" submitTitle="Добавить"/>
+  </div>
 </template>
 
 <script>
+import DeviceForm from '@/components/devices/DeviceForm'
+import DevicesTable from '@/components/devices/DevicesTable'
+
 export default {
+  components: { DeviceForm, DevicesTable },
   methods: {
     loadDevices () {
       this.$store.dispatch('devices/fetchAll')
+    },
+    saveDevice (device) {
+      this.$store.dispatch('devices/saveDevice', device)
     }
   },
   beforeCreate () {

@@ -5,7 +5,7 @@ const state = {
 }
 
 const getters = {
-  items: (state) => Object.values(state.items)
+  items: state => Object.values(state.items)
 }
 
 const actions = {
@@ -13,8 +13,16 @@ const actions = {
     let msg = {action: 'devices.all'}
     dispatch('api/sendMessage', msg, {root: true})
   },
+  saveDevice ({dispatch}, device) {
+    let msg = {action: 'devices.save', device}
+    dispatch('api/sendMessage', msg, {root: true})
+  },
+  removeDevice ({dispatch}, device) {
+    let msg = {action: 'devices.delete', device}
+    dispatch('api/sendMessage', msg, {root: true})
+  },
   // actions from messages
-  add ({commit}, devices) {
+  save ({commit}, devices) {
     devices.forEach(device => commit('set', device))
   },
   delete ({commit}, devices) {
@@ -24,7 +32,7 @@ const actions = {
     commit('setAll', devices)
   },
   get ({dispatch}, devices) {
-    dispatch('add', devices)
+    dispatch('save', devices)
   }
 }
 

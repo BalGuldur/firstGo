@@ -3,6 +3,7 @@ package processor
 import (
 	"../devices"
 	"encoding/json"
+	"fmt"
 )
 
 type Request struct {
@@ -24,13 +25,15 @@ func Proceed(raw []byte) Response {
 		// TODO: Return error and send in response message
 		return Response{}
 	}
+	fmt.Println("receive message: ")
+	fmt.Println(request)
 	var response = Response{
 		Success: true,
 		Public:  false,
 		Action:  request.Action,
 	}
 	switch request.Action {
-	case "devices.add":
+	case "devices.save":
 		var dev, suc, _ = request.Device.Save()
 		response.Devices = []devices.Device{dev}
 		response.Success = suc
