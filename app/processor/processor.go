@@ -1,7 +1,7 @@
 package processor
 
 import (
-	"../devices"
+	"devices/app/devices"
 	"encoding/json"
 	"fmt"
 )

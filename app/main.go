@@ -1,7 +1,7 @@
 package app
 
 import (
-	"./websock"
+	"devices/app/websock"
 	"log"
 	"net/http"
 )

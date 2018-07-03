@@ -1,7 +1,7 @@
 package websock
 
 import (
-	"../processor"
+	"devices/app/processor"
 	"github.com/gorilla/websocket"
 )
 

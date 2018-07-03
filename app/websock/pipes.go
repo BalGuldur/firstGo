@@ -1,7 +1,7 @@
 package websock
 
 import (
-	"../processor"
+	"devices/app/processor"
 	"github.com/gin-gonic/gin/json"
 	"github.com/gorilla/websocket"
 	"log"

@@ -1,6 +1,6 @@
 package main
 
-import "./app"
+import "devices/app"
 
 func main() {
 	app.Start()
